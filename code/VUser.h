@@ -27,6 +27,10 @@
 #include "VProc.h"
 #include "VSched_pli.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define DELTA_CYCLE     -1
 #define GO_TO_SLEEP     0x7fffffff
 
@@ -65,24 +69,24 @@ typedef void *(*pThreadFunc_t)(void *);
 
 // VUser function prototypes for API
 
-extern int  VWrite        (const unsigned      addr,  const unsigned  data, const int      delta,   const unsigned node);
-extern int  VWriteBE      (const unsigned      addr,  const unsigned  data, const unsigned be,      const int      delta, const unsigned node);
-extern int  VRead         (const unsigned      addr,  unsigned       *data, const int      delta,   const unsigned node);
-extern int  VBurstWrite   (const unsigned      addr,  void           *data, const unsigned wordlen, const unsigned node);
-extern int  VBurstWriteBE (const unsigned      addr,  void           *data, const unsigned wordlen, const unsigned fbe, const unsigned lbe, const unsigned node);
-extern int  VBurstRead    (const unsigned      addr,  void           *data, const unsigned wordlen, const unsigned node);
-extern int  VTick         (const unsigned      ticks, const unsigned  node);
-extern void VRegUser      (const pVUserCB_t    func,  const unsigned  node);
-extern void VRegIrq       (const pVUserIrqCB_t func,  const unsigned  node);
+   extern int  VWrite        (const unsigned      addr,  const unsigned  data, const int      delta,   const unsigned node);
+   extern int  VWriteBE      (const unsigned      addr,  const unsigned  data, const unsigned be,      const int      delta, const unsigned node);
+   extern int  VRead         (const unsigned      addr,  unsigned       *data, const int      delta,   const unsigned node);
+   extern int  VBurstWrite   (const unsigned      addr,  void           *data, const unsigned wordlen, const unsigned node);
+   extern int  VBurstWriteBE (const unsigned      addr,  void           *data, const unsigned wordlen, const unsigned fbe, const unsigned lbe, const unsigned node);
+   extern int  VBurstRead    (const unsigned      addr,  void           *data, const unsigned wordlen, const unsigned node);
+   extern int  VTick         (const unsigned      ticks, const unsigned  node);
+   extern void VRegUser      (const pVUserCB_t    func,  const unsigned  node);
+   extern void VRegIrq       (const pVUserIrqCB_t func,  const unsigned  node);
 
-// *** Deprecated in favour of VRegIrq ***/
-extern void VRegInterrupt (const int           level, const pVUserInt_t  func, const unsigned node);
+    // *** Deprecated in favour of VRegIrq ***/
+   extern void VRegInterrupt (const int           level, const pVUserInt_t  func, const unsigned node);
 
-// Internal function for Python interface
-extern void VRegIrqPy     (const pPyIrqCB_t    func,  const unsigned  node);
+    // Internal function for Python interface
+   extern void VRegIrqPy     (const pPyIrqCB_t    func,  const unsigned  node);
 
-// VUser function prototype for VInit in VSched.c
-extern int  VUser         (const unsigned   node);
+    // VUser function prototype for VInit in VSched.c
+   extern int  VUser         (const unsigned   node);
 
 #if defined(VPROC_VHDL) || defined (ICARUS) || defined (VPROC_SV)
 # define VPrint(...) printf (__VA_ARGS__)
@@ -98,5 +102,9 @@ extern int  VUser         (const unsigned   node);
 
 // Pointer to VUserMain function type definition
 typedef void (*pVUserMain_t)(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
