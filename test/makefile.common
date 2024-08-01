@@ -88,12 +88,12 @@ CFLAGS_SO           = $(ARCHFLAG)                         \
                       $(SIMFLAGSSO)                       \
                       -L$(TESTDIR) -lvproc                \
                       -Wl,-no-whole-archive               \
-                      $(POSTVPROCSOFLAGS)                 \
-                      -o $(VPROC_PLI)
+                      $(POSTVPROCSOFLAGS)
 
 # Compiler executables and standard flags
-CC                  = gcc
-C++                 = g++
+CC                  ?= gcc
+C++                 ?= g++
+AR                  ?= ar
 
 #------------------------------------------------------
 # Build rules
@@ -123,7 +123,7 @@ $(VOBJDIR)/%.o: $(MEMMODELDIR)/%.cpp $(MEMMODELDIR)/*.h
 
 # Rule to build VProc library
 $(VLIB) : $(VOBJS) $(VOBJDIR)
-	@ar cr $(VLIB) $(VOBJS)
+	@$(AR) cr $(VLIB) $(VOBJS)
 
 # Rule make object temporary directory a dependency of object files
 $(VOBJS): | $(VOBJDIR)
