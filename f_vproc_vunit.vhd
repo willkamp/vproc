@@ -83,7 +83,7 @@ begin
 
             -- Cleanly sample and convert inputs
             IntSampLast := 0;
-            IntSamp     := to_integer('0' & unsigned(interrupt));
+            IntSamp     := to_integer('0' & signed(interrupt));
             VPTicks     := DELTACYCLE;
 
             if IntSamp > 0 then
@@ -124,22 +124,21 @@ begin
                 );
                 debug("Called VSched(" &
                        to_string(NODE) & ", " &
-                       to_hstring(to_unsigned(IntSamp, 32)) & ", " &
-                       to_hstring(to_unsigned(v_DataInSamp, 32)) & ", " &
-                       to_hstring(to_unsigned(VPDataOut, 32)) & ", " &
-                       to_hstring(to_unsigned(VPAddr, 32)) & ", " &
-                       to_hstring(to_unsigned(VPRW, 32)) & ", " &
+                       to_hstring(to_signed(IntSamp, 32)) & ", " &
+                       to_hstring(to_signed(v_DataInSamp, 32)) & ", " &
+                       to_hstring(to_signed(VPDataOut, 32)) & ", " &
+                       to_hstring(to_signed(VPAddr, 32)) & ", " &
+                       to_hstring(to_signed(VPRW, 32)) & ", " &
                        to_string(VPTicks) &
                        ")");
 
                 -- Decode VPRW register.
-                (v_RESERVED, v_LBE, v_BE, v_Burst, v_RD, v_WE) := std_logic_vector(to_unsigned(VPRW, 32));
+                (v_RESERVED, v_LBE, v_BE, v_Burst, v_RD, v_WE) := std_logic_vector(to_signed(VPRW, 32));
 
-                v_BlkCount := to_integer(unsigned(v_Burst));
+                v_BlkCount := to_integer(signed('0' & v_Burst));
                 if v_WE then
                     if v_BlkCount <= 0 then
                         -- Write word, with Byte Enable.
-                        -- VAccess(NODE, 0, 0, VPDataOut);
                         v_DataOut := std_logic_vector(to_signed(VPDataOut, 32));
                         write_bus(net, VUNIT_BUS, VPAddr, v_DataOut, v_BE);
                     else
@@ -162,7 +161,7 @@ begin
                 if v_RD then
                     if v_BlkCount <= 0 then
                         read_bus(net, VUNIT_BUS, VPAddr, v_DataIn);
-                        v_DataInSamp := to_integer(signed(v_DataIn));
+                        v_DataInSamp := to_integer(signed(v_DataIn)); 
                     else
                         -- Burst Read.
                         burst_read_bus(net, VUNIT_BUS, VPAddr, v_BlkCount, rd_queue);
