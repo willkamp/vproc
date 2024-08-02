@@ -31,7 +31,7 @@ TESTDIR            = vunit_out/modelsim
 VOBJDIR            = $(TESTDIR)/obj
 
 # User test source code file list
-USER_C             = $(USRCDIR)/VUserMain0.cpp
+USER_C             = $(USRCDIR)/VUserMain0.cpp $(USRCDIR)/VUserMain1.cpp
 
 #------------------------------------------------------
 # Settings specific to target simulator 

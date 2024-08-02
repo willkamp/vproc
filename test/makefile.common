@@ -130,7 +130,7 @@ $(VOBJS): | $(VOBJDIR)
 
 # Rule to build object file temporary directory
 $(VOBJDIR):
-	@mkdir $(VOBJDIR)
+	@mkdir -p $(VOBJDIR)
 
 # Rule to build VProc shared object          
 $(VPROC_PLI): $(VLIB) $(VERIUSEROBJ)

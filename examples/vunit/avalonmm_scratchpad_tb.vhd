@@ -2,15 +2,14 @@
 -- Title      : Template Testbench
 -- Project    : Square Kilometre Array
 -------------------------------------------------------------------------------
--- File       : template_tb.vhd
--- Author     : Stephen Harrison <stephen.harrison@nrc-cnrc.gc.ca>
--- Company    : National Research Council Canada
+-- File       : avalonmm_scratchpad_tb.vhd
+-- Author     : William Kamp <will@kamputed.com>
+-- Company    : Kamputed Limited
 -- Standard   : VHDL-2008
 -------------------------------------------------------------------------------
--- Copyright (c) 2020 National Research Council of Canada
+-- Copyright (c) 2024 Kamputed Limited
 -------------------------------------------------------------------------------
--- Description: This project is a working example of how firmware IP block
---              repositories should be structured.
+-- Description:
 --------------------------------------------------------------------------------
 -- Revisions:  Revisions and documentation are controlled by
 -- the revision control system (RCS).  The RCS should be consulted
@@ -25,13 +24,13 @@ library ieee;
     use ieee.std_logic_1164.all;
     use ieee.numeric_std.all;
 
-entity scratchpad_tb is
+entity avalonmm_scratchpad_tb is
     generic (
         RUNNER_CFG : string
     );
 end entity;
 
-architecture sim of scratchpad_tb is
+architecture sim of avalonmm_scratchpad_tb is
 
     constant c_DATA_WIDTH  : natural      := 32;
     constant c_BURST_WIDTH : natural      := 4;
@@ -39,7 +38,7 @@ architecture sim of scratchpad_tb is
     signal i_clk     : std_logic := '1';
     signal i_clk_rst : std_logic;
 
-    signal address      : std_logic_vector(12 downto 0);
+    signal address      : std_logic_vector(11 downto 0);
     signal read_enable  : std_logic;
     signal write_enable : std_logic;
     signal write_data   : std_logic_vector(c_DATA_WIDTH - 1 downto 0);
@@ -167,8 +166,8 @@ begin
                     );
                 end loop;
                 -- let the virtual processor do its thing.
-                wait for 1 ms;           -- FIXME : communicate that the VProc has finished somehow. Maybe it sets VTicks to some large value.
-                -- check_expected_was_written(memory => c_MEMORY_HANDLE);
+                wait for 100 us;           -- FIXME : communicate that the VProc has finished somehow. Maybe it sets VTicks to some large value.
+                check_expected_was_written(memory => c_MEMORY_HANDLE);
             end if;
         end loop;
         test_runner_cleanup(runner);
